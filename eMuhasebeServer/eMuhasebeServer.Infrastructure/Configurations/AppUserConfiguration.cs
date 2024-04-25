@@ -9,5 +9,7 @@ internal sealed class AppUserConfiguration : IEntityTypeConfiguration<AppUser>
     {
         builder.Property(p => p.FirstName).HasColumnType("varchar(50)");
         builder.Property(p => p.LastName).HasColumnType("varchar(50)");
+
+        builder.HasQueryFilter(x => !x.IsDeleted);
     }
 }
