@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using eMuhasebeServer.Domain.Entities;
+using eMuhasebeServer.Domain.Events;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ using TS.Result;
 namespace eMuhasebeServer.Application.Features.Users.UpdateUser;
 
 internal sealed class UpdateUserCommandHandler(
+    IMediator mediator,
     UserManager<AppUser> userManager,
     IMapper mapper) : IRequestHandler<UpdateUserCommand, Result<string>>
 {
@@ -69,7 +71,7 @@ internal sealed class UpdateUserCommandHandler(
 
         if (isMailChanged)
         {
-            //Tekrardan onay maili gönder;
+            await mediator.Publish(new AppUserEvent(appUser.Id));
         }
 
         return "Kullanıcı başarıyla güncellendi";
