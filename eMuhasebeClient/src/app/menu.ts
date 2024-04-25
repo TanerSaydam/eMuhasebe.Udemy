@@ -13,12 +13,20 @@ export const Menus: MenuModel[] = [
         url: "/",
         isTitle: false,
         subMenus: []
+    },   
+    {
+        name: "Admin",
+        icon: "",
+        url: "",
+        isTitle: true,
+        subMenus: []
     },
     {
-        name: "Examples",
-        icon: "fa-solid fa-explosion",
-        url: "/examples",
+        name: "Kullanıcılar",
+        icon: "fa-solid fa-users",
+        url: "/users",
         isTitle: false,
-        subMenus: []
-    }
+        subMenus:[]
+    },
+   
 ]

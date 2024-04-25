@@ -54,14 +54,18 @@ internal sealed class UpdateUserCommandHandler(
             return Result<string>.Failure(identityResult.Errors.Select(s => s.Description).ToList());
         }
 
-        string token = await userManager.GeneratePasswordResetTokenAsync(appUser);
-
-        identityResult = await userManager.ResetPasswordAsync(appUser, token, request.Password);
-
-        if (!identityResult.Succeeded)
+        if(request.Password is not null)
         {
-            return Result<string>.Failure(identityResult.Errors.Select(s => s.Description).ToList());
+            string token = await userManager.GeneratePasswordResetTokenAsync(appUser);
+
+            identityResult = await userManager.ResetPasswordAsync(appUser, token, request.Password);
+
+            if (!identityResult.Succeeded)
+            {
+                return Result<string>.Failure(identityResult.Errors.Select(s => s.Description).ToList());
+            }
         }
+        
 
         if (isMailChanged)
         {
