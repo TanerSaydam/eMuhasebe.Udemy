@@ -11,6 +11,7 @@ internal sealed class ApplicationDbContext : IdentityDbContext<AppUser, Identity
     {
     }
 
+    public DbSet<Company> Companies { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(typeof(DependencyInjection).Assembly);
