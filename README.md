@@ -1,6 +1,14 @@
 # Udemy e-Muhasebe Uygulaması Eğitimi
 Bu repo udemy içinde hazırladığım eMuhasebe uygulamasına aittir. 
+
 İndirim kuponu için bana LinkedIn üzerinden ulaşabilirsiniz
+
+https://www.linkedin.com/in/taner-saydam-b26336222/
+
+ya da Mail atabilirsiniz
+
+tanersaydam@gmail.com
+
 
 Eğitimde kullanılan (Backend) TS.CleanArchitecture template'i için aşağıdaki kurulum kodunu kullanabilirsiniz
 
