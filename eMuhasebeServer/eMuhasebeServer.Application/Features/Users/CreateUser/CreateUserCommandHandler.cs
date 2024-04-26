@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using eMuhasebeServer.Application.Services;
 using eMuhasebeServer.Domain.Entities;
 using eMuhasebeServer.Domain.Events;
 using eMuhasebeServer.Domain.Repositories;
@@ -11,6 +12,7 @@ using TS.Result;
 namespace eMuhasebeServer.Application.Features.Users.CreateUser;
 
 internal sealed class CreateUserCommandHandler(
+    ICacheService cacheService,
     IMediator mediator,
     UserManager<AppUser> userManager,
     ICompanyUserRepository companyUserRepository,
@@ -51,7 +53,10 @@ internal sealed class CreateUserCommandHandler(
         await companyUserRepository.AddRangeAsync(companyUsers, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
+        cacheService.Remove("users");
+
         await mediator.Publish(new AppUserEvent(appUser.Id));
+
 
         return "Kullanıcı kaydı başarıyla tamamlandı";
     }
