@@ -45,7 +45,7 @@ internal sealed class LoginCommandHandler(
             return (500, "Şifreniz yanlış");
         }
 
-        var loginResponse = await jwtProvider.CreateToken(user);
+        var loginResponse = await jwtProvider.CreateToken(user,null);
 
 
         return loginResponse;

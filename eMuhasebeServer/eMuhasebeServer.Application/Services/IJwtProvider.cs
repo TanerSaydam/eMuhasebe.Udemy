@@ -4,5 +4,5 @@ using eMuhasebeServer.Domain.Entities;
 namespace eMuhasebeServer.Application.Services;
 public interface IJwtProvider
 {
-    Task<LoginCommandResponse> CreateToken(AppUser user);
+    Task<LoginCommandResponse> CreateToken(AppUser user, Guid? companyId);
 }
