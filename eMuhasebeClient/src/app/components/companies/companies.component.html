@@ -2,9 +2,14 @@
     <app-section sectionTitle="Şirket Listesi">
         <div class="form-group row">
             <div class="col-9">
-                <button class="btn btn-dark" data-toggle="modal" data-target="#createModal">
+                <button class="btn btn-dark me-1" data-toggle="modal" data-target="#createModal">
                     <i class="fa-solid fa-plus me-1"></i>
                     Şirket Ekle
+                </button>
+
+                <button class="btn btn-dark" (click)="migrateAll()">
+                    <i class="fa-solid fa-rotate me-1"></i>
+                    Tüm Databaseleri Güncelle
                 </button>
             </div>
 

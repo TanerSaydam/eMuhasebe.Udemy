@@ -3,11 +3,18 @@ using eMuhasebeServer.Domain.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace eMuhasebeServer.Infrastructure.Context;
 internal sealed class CompanyDbContext : DbContext, IUnitOfWorkCompany
 {
     private string connectionString = string.Empty;
+
+    public CompanyDbContext(Company company)
+    {
+        CreateConnectionStringWithCompany(company);
+    }
+
     public CompanyDbContext(IHttpContextAccessor httpContextAccessor, ApplicationDbContext context)
     {
         CreateConnectionString(httpContextAccessor, context);
@@ -27,6 +34,11 @@ internal sealed class CompanyDbContext : DbContext, IUnitOfWorkCompany
         Company? company = context.Companies.Find(Guid.Parse(companyId));
         if (company is null) return;
 
+        CreateConnectionStringWithCompany(company);
+    }
+
+    private void CreateConnectionStringWithCompany(Company company)
+    {
         if (string.IsNullOrEmpty(company.Database.UserId))
         {
             connectionString =

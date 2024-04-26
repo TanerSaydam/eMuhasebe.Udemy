@@ -11,7 +11,7 @@ using eMuhasebeServer.Infrastructure.Context;
 namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
 {
     [DbContext(typeof(CompanyDbContext))]
-    [Migration("20240426105017_mg1")]
+    [Migration("20240426110544_mg1")]
     partial class mg1
     {
         /// <inheritdoc />
