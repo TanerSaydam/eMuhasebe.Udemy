@@ -13,6 +13,8 @@ internal sealed class GetAllUsersQueryHandler(
     {
         List<AppUser> users = 
             await userManager.Users
+            .Include(p=> p.CompanyUsers!)
+            .ThenInclude(p=> p.Company)
             .OrderBy(p=> p.FirstName)
             .ToListAsync(cancellationToken);
 

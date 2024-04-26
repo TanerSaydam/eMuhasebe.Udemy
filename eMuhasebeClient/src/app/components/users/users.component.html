@@ -21,6 +21,7 @@
                         <th>Ad Soyad</th>
                         <th>UserName</th>
                         <th>Mail Adresi</th>
+                        <th>Bağlı Olduğu Şirketler</th>
                         <th>İşlemler</th>
                     </tr>
                 </thead>
@@ -31,6 +32,13 @@
                         <td>{{data.fullName}}</td>
                         <td>{{data.userName}}</td>
                         <td>{{data.email}}</td>
+                        <td>
+                            <ul>
+                                @for(companyUser of data.companyUsers; track companyUser;){
+                                    <li>{{companyUser.company.name}}</li>
+                                }
+                            </ul>
+                        </td>
                         <td>
                             <button data-toggle="modal" data-target="#updateModal" (click)="get(data)" class="btn btn-outline-primary btn-sm me-1">
                                 <i class="fa-solid fa-edit"></i>
@@ -89,7 +97,17 @@
                         <div class="invalid-feedback"></div>
                     </div>  
 
-
+                    <div class="form-group mt-2">
+                        <label>Bağlı Olduğu Şirketler</label>
+                        <select name="companyIds" [(ngModel)]="createModel.companyIds" class="form-control" multiple required>
+                            @for(company of companies; track company){
+                                <option [value]="company.id">
+                                    {{company.name}}
+                                </option>
+                            }
+                        </select>
+                        <div class="invalid-feedback"></div>
+                    </div>
                 </div>
                 <div class="modal-footer">                    
                     <button type="submit" class="btn btn-dark w-100">Kaydet</button>
@@ -140,6 +158,18 @@
                         <input type="password" [(ngModel)]="updateModel.password" class="form-control" name="updatePassword">
                         <div class="invalid-feedback"></div>
                     </div>  
+
+                    <div class="form-group mt-2">
+                        <label>Bağlı Olduğu Şirketler</label>
+                        <select name="updateCompanyIds" [(ngModel)]="updateModel.companyIds" class="form-control" multiple required>
+                            @for(company of companies; track company){
+                                <option [value]="company.id">
+                                    {{company.name}}
+                                </option>
+                            }
+                        </select>
+                        <div class="invalid-feedback"></div>
+                    </div>
 
                 </div>
                 <div class="modal-footer">                    
