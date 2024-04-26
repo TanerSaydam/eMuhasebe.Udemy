@@ -1,4 +1,5 @@
 import { CompanyUserModel } from "./company-user.model";
+import { CompanyModel } from "./company.model";
 
 export class UserModel{
     id: string = "";
@@ -9,6 +10,8 @@ export class UserModel{
     password: string | null = "";
     userName: string = "";
     email: string = "";
+    companyId: string = "";
     companyIds: string[] = []; 
     companyUsers: CompanyUserModel[] = [];
+    companies: CompanyModel[] = [];
 }
