@@ -4,9 +4,9 @@ using eMuhasebeServer.Infrastructure.Context;
 using GenericRepository;
 
 namespace eMuhasebeServer.Infrastructure.Repositories;
-internal sealed class BankDetailRepository : Repository<BankDetail, ApplicationDbContext>, IBankDetailRepository
+internal sealed class BankDetailRepository : Repository<BankDetail, CompanyDbContext>, IBankDetailRepository
 {
-    public BankDetailRepository(ApplicationDbContext context) : base(context)
+    public BankDetailRepository(CompanyDbContext context) : base(context)
     {
     }
 }
