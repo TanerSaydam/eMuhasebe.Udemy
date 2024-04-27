@@ -33,7 +33,11 @@ export class ErrorService {
         break;
         
       case 500:
-        this.swal.callToast(err.error.errorMessages[0], "error");
+        if(err.error.ErrorMessages != undefined){
+          this.swal.callToast(err.error.ErrorMessages[0], "error");
+        }else{
+          this.swal.callToast(err.error.errorMessages[0], "error");
+        }
         break;
 
       

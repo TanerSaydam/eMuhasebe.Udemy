@@ -40,4 +40,20 @@ export const Menus: MenuModel[] = [
         subMenus:[],
         showThisMenuJustAdmin: true,
     },
+    {
+        name: "Kayıtlar",
+        icon: "",
+        url: "",
+        isTitle: true,
+        subMenus: [],
+        showThisMenuJustAdmin: false,
+    },
+    {
+        name: "Kasalar",
+        icon: "fa-solid fa-cash-register",
+        url: "/cash-registers",
+        isTitle: false,
+        subMenus:[],
+        showThisMenuJustAdmin: true,
+    },
 ]

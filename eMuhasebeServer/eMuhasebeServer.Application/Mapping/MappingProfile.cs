@@ -21,12 +21,11 @@ public sealed class MappingProfile : Profile
 
         CreateMap<CreateCashRegisterCommand, CashRegister>().ForMember(member => member.CurrencyType, options =>
         {
-            options.MapFrom(map => CurrencyTypeEnum.FromValue(map.TypeValue));
+            options.MapFrom(map => CurrencyTypeEnum.FromValue(map.CurrencyTypeValue));
         });
-
         CreateMap<UpdateCashRegisterCommand, CashRegister>().ForMember(member => member.CurrencyType, options =>
         {
-            options.MapFrom(map => CurrencyTypeEnum.FromValue(map.TypeValue));
+            options.MapFrom(map => CurrencyTypeEnum.FromValue(map.CurrencyTypeValue));
         });
     }
 }
