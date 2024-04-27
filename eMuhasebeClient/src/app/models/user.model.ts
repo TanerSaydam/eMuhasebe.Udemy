@@ -14,4 +14,5 @@ export class UserModel{
     companyIds: string[] = []; 
     companyUsers: CompanyUserModel[] = [];
     companies: CompanyModel[] = [];
+    isAdmin: boolean = false;
 }

@@ -4,6 +4,7 @@ export class MenuModel{
     url: string = "";
     isTitle: boolean = false;
     subMenus: MenuModel[] = [];
+    showThisMenuJustAdmin: boolean = false;
 }
 
 export const Menus: MenuModel[] = [
@@ -12,27 +13,31 @@ export const Menus: MenuModel[] = [
         icon: "fa-solid fa-home",
         url: "/",
         isTitle: false,
-        subMenus: []
+        subMenus: [],
+        showThisMenuJustAdmin: false,
     },   
     {
         name: "Admin",
         icon: "",
         url: "",
         isTitle: true,
-        subMenus: []
+        subMenus: [],
+        showThisMenuJustAdmin: true,
     },
     {
         name: "Kullanıcılar",
         icon: "fa-solid fa-users",
         url: "/users",
         isTitle: false,
-        subMenus:[]
+        subMenus:[],
+        showThisMenuJustAdmin: true,
     },
     {
         name: "Şirketler",
         icon: "fa-solid fa-city",
         url: "/companies",
         isTitle: false,
-        subMenus:[]
+        subMenus:[],
+        showThisMenuJustAdmin: true,
     },
 ]
