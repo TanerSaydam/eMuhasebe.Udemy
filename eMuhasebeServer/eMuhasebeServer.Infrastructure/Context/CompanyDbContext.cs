@@ -35,6 +35,7 @@ internal sealed class CompanyDbContext : DbContext, IUnitOfWorkCompany
         modelBuilder.Entity<CashRegister>()
             .Property(p => p.CurrencyType)
             .HasConversion(type => type.Value, value => CurrencyTypeEnum.FromValue(value));
+        modelBuilder.Entity<CashRegister>().HasQueryFilter(filter => !filter.IsDeleted);
     }
 
     private void CreateConnectionString(IHttpContextAccessor httpContextAccessor, ApplicationDbContext context)
