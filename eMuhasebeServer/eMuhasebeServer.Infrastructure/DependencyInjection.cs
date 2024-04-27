@@ -21,8 +21,8 @@ public static class DependencyInjection
         services.AddMemoryCache();
         services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost"));
 
-        //services.AddScoped<ICacheService, MemoryCacheService>();
-        services.AddScoped<ICacheService, RedisCacheService>();
+        services.AddScoped<ICacheService, MemoryCacheService>();
+        //services.AddScoped<ICacheService, RedisCacheService>();
 
         services.AddScoped<CompanyDbContext>();
 

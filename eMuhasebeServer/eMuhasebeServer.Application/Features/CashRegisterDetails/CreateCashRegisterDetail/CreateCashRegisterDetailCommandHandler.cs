@@ -7,7 +7,7 @@ using TS.Result;
 namespace eMuhasebeServer.Application.Features.CashRegisterDetails.CreateCashRegisterDetail;
 
 internal sealed class CreateCashRegisterDetailCommandHandler(
-    ICashRegisterRepository cashRegisterRepository
+    ICashRegisterRepository cashRegisterRepository,
     ICashRegisterDetailRepository cashRegisterDetailRepository,
     IUnitOfWorkCompany unitOfWorkCompany,
     ICacheService cacheService
@@ -24,20 +24,19 @@ internal sealed class CreateCashRegisterDetailCommandHandler(
         {
             Date = request.Date,
             DepositAmount = request.Type == 0 ? request.Amount : 0,
-            WithdrawalAmount = request.Type == 1 ? request.Amount : 0,
-            CashRegisterDetailId = request.CashRegisterDetailId,
+            WithdrawalAmount = request.Type == 1 ? request.Amount : 0,            
             Description = request.Description,
             CashRegisterId = request.CashRegisterId
         };
 
         await cashRegisterDetailRepository.AddAsync(cashRegisterDetail, cancellationToken);
 
-        if(request.CashRegisterDetailId is not null)
+        if(request.OppositeCashRegisterId is not null)
         {
-            CashRegister oppositeCashRegister = await cashRegisterRepository.GetByExpressionWithTrackingAsync(p => p.Id == request.CashRegisterDetailId, cancellationToken);
+            CashRegister oppositeCashRegister = await cashRegisterRepository.GetByExpressionWithTrackingAsync(p => p.Id == request.OppositeCashRegisterId, cancellationToken);
 
-            cashRegister.DepositAmount += (request.Type == 1 ? request.OppositeAmount : 0);
-            cashRegister.WithdrawalAmount += (request.Type == 0 ? request.OppositeAmount : 0);
+            oppositeCashRegister.DepositAmount += (request.Type == 1 ? request.OppositeAmount : 0);
+            oppositeCashRegister.WithdrawalAmount += (request.Type == 0 ? request.OppositeAmount : 0);
 
             CashRegisterDetail oppositeCashRegisterDetail = new()
             {
@@ -46,8 +45,10 @@ internal sealed class CreateCashRegisterDetailCommandHandler(
                 WithdrawalAmount = request.Type == 0 ? request.OppositeAmount : 0,
                 CashRegisterDetailId = cashRegisterDetail.Id,
                 Description = request.Description,
-                CashRegisterId = (Guid)request.CashRegisterDetailId
+                CashRegisterId = (Guid)request.OppositeCashRegisterId
             };
+
+            cashRegisterDetail.CashRegisterDetailId = oppositeCashRegisterDetail.Id;
 
             await cashRegisterDetailRepository.AddAsync(oppositeCashRegisterDetail, cancellationToken);
         }

@@ -57,6 +57,8 @@ internal sealed class DeleteCashRegisterDetailByIdCommandHandler(
 
             oppositeCashRegister.DepositAmount -= oppositeCashRegisterDetail.DepositAmount;
             oppositeCashRegister.WithdrawalAmount -= oppositeCashRegisterDetail.WithdrawalAmount;
+
+            cashRegisterDetailRepository.Delete(oppositeCashRegisterDetail);
         }
 
         cashRegisterDetailRepository.Delete(cashRegisterDetail);

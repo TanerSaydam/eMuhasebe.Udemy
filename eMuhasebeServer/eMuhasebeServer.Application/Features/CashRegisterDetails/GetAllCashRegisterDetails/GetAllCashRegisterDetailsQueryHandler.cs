@@ -14,7 +14,7 @@ internal sealed class GetAllCashRegisterDetailsQueryHandler(
         CashRegister? cashRegister =
             await cashRegisterRepository
             .Where(p => p.Id == request.CashRegisterId)
-            .Include(p => p.CashRegisterDetails!.Where(p => p.Date >= request.StartDate && p.Date <= request.EndDate))
+            .Include(p => p.Details!.Where(p => p.Date >= request.StartDate && p.Date <= request.EndDate))
             .FirstOrDefaultAsync(cancellationToken);
 
         if(cashRegister is null)

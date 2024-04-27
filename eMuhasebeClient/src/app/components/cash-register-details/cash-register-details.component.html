@@ -1,0 +1,191 @@
+<app-blank pageName="{{cashRegister.name}} Kasa Hareketi" [routes]="['Kayıtlar','Kasalar',cashRegister.name + ' Kasa Hareketleri']">
+    <app-section sectionTitle="{{cashRegister.name}} Kasa Hareketleri">
+        <div class="form-group row">
+            <div class="col-3">
+                <button class="btn btn-dark" data-toggle="modal" data-target="#createModal">
+                    <i class="fa-solid fa-plus me-1"></i>
+                    İşlem Ekle
+                </button>
+            </div>
+
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-4">
+                        <input type="date" class="form-control" [(ngModel)]="startDate">
+                    </div>
+                    <div class="col-4">
+                        <input type="date" class="form-control" [(ngModel)]="endDate">
+                    </div>
+                    <div>
+                        <button class="btn btn-dark w-100" (click)="getAll()">Getir</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <input [(ngModel)]="search" type="search" class="form-control" placeholder="Aranacak değer girin...">
+            </div>
+        </div>
+
+        <div class="form-group mt-2">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Tarih</th>
+                        <th>Açıklama</th>
+                        <th>Giriş</th>
+                        <th>Çıkış</th>                        
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(data of cashRegister.details| cashRegisterDetail: search ;track data){
+                    <tr>
+                        <td>{{$index + 1}}</td>
+                        <td>{{data.date | date: 'dd.MM.yyyy'}}</td>
+                        <td>
+                            <span class="me-1">{{data.description}} </span>
+                            @if(data.cashRegisterDetailId){
+                                <i class="fa-solid fa-right-left"></i>
+                            }
+                        </td>
+                        <td>{{data.depositAmount | trCurrency: changeCurrencyNameToSymbol(cashRegister.currencyType.name): true}}</td>
+                        <td>{{data.withdrawalAmount | trCurrency: changeCurrencyNameToSymbol(cashRegister.currencyType.name): true}}</td>
+                        <td>
+                            <button data-toggle="modal" data-target="#updateModal" (click)="get(data)" class="btn btn-outline-primary btn-sm me-1">
+                                <i class="fa-solid fa-edit"></i>
+                            </button>
+                            <button (click)="deleteById(data)" class="btn btn-outline-danger btn-sm">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </app-section>
+</app-blank>
+
+<!-- Create Modal -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Kasa Hareketi Ekleme Formu</h3>
+                <button type="button" #createModalCloseBtn class="btn btn-outline-danger" data-dismiss="modal">
+                    <i class="fa-solid fa-x"></i>
+                </button>
+            </div>
+            <form formValidate #createForm="ngForm" autocomplete="off" (ngSubmit)="create(createForm)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Tarih</label>
+                        <input type="date" required [(ngModel)]="createModel.date" class="form-control" name="date">
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    
+                    <div class="form-group mt-2">
+                        <label>İşlem Tipi</label>
+                        <select class="form-control" name="type" [(ngModel)]="createModel.type" required>
+                            <option [value]="0">Giriş</option>
+                            <option [value]="1">Çıkış</option>
+                        </select>
+                        <div class="invalid-feedback"></div>
+                    </div>    
+                    
+                    <div class="form-group mt-2">
+                        <label>Tutar</label>
+                        <input type="text" required [(ngModel)]="createModel.amount" class="form-control" name="amount">
+                        <div class="invalid-feedback"></div>
+                    </div>
+
+                    <div class="form-group mt-2">
+                        <label>Kayıt Tipi</label>
+                        <select class="form-control" name="recordType" [(ngModel)]="createModel.recordType">
+                            <option [value]="0">Diğer</option>
+                            <option [value]="1">Kasa</option>
+                        </select>
+                        <div class="invalid-feedback"></div>
+                    </div>    
+
+                    @if(createModel.recordType == 1){
+                        <div class="form-group mt-2">
+                            <label>Kasa</label>
+                            <select 
+                            class="form-control" 
+                            name="oppositeCashRegisterId" 
+                            (change)="setOppositeCashRegister()"
+                            [(ngModel)]="createModel.oppositeCashRegisterId">
+                                @for(cash of cashRegisters; track cash){
+                                    <option [value]="cash.id">
+                                        {{cash.name}}
+                                    </option>
+                                }
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>    
+
+                         @if(createModel.oppositeCashRegister.currencyType.value != cashRegister.currencyType.value){
+                            <div class="form-group mt-2">
+                                <label>Karşı Tutar</label>
+                                <input type="text" required [(ngModel)]="createModel.oppositeAmount" class="form-control" name="oppositeAmount">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                         }                    
+                    }
+
+                    <div class="form-group mt-2">
+                        <label>Açıklama</label>
+                        <input type="text" required minlength="3" [(ngModel)]="createModel.description" class="form-control" name="description">
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">                    
+                    <button type="submit" class="btn btn-dark w-100">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Update Modal -->
+<div class="modal fade" id="updateModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title fs-5">Kasa Hareket Güncelleme Formu</h3>
+                <button type="button" #updateModalCloseBtn class="btn btn-outline-danger" data-dismiss="modal">
+                    <i class="fa-solid fa-x"></i>
+                </button>
+            </div>
+            <form formValidate #updateForm="ngForm" autocomplete="off" (ngSubmit)="update(updateForm)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Tarih</label>
+                        <input type="date" required [(ngModel)]="updateModel.date" class="form-control" name="updateDate">
+                        <div class="invalid-feedback"></div>
+                    </div>                      
+                    
+                    <div class="form-group mt-2">
+                        <label>Tutar</label>
+                        <input type="text" required [(ngModel)]="updateModel.amount" class="form-control" name="updateAmount">
+                        <div class="invalid-feedback"></div>
+                    </div>                 
+
+                    <div class="form-group mt-2">
+                        <label>Açıklama</label>
+                        <input type="text" required minlength="3" [(ngModel)]="updateModel.description" class="form-control" name="updateDescription">
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">                    
+                    <button type="submit" class="btn btn-primary w-100">Güncelle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

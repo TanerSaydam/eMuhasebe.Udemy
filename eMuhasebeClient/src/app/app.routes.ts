@@ -9,6 +9,7 @@ import { UsersComponent } from './components/users/users.component';
 import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
 import { CompaniesComponent } from './components/companies/companies.component';
 import { CashRegistersComponent } from './components/cash-registers/cash-registers.component';
+import { CashRegisterDetailsComponent } from './components/cash-register-details/cash-register-details.component';
 
 export const routes: Routes = [
     {
@@ -38,7 +39,17 @@ export const routes: Routes = [
             },
             {
                 path: "cash-registers",
-                component: CashRegistersComponent
+                children: [
+                    {
+                        path: "",
+                        component: CashRegistersComponent
+                    },
+                    {
+                        path: "details/:id",
+                        component: CashRegisterDetailsComponent
+                    }
+                ]
+                
             }
         ]
     }

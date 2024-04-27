@@ -40,7 +40,8 @@ internal sealed class UpdateCashRegisterDetailCommandHandler(
 
         cashRegisterDetail.DepositAmount = request.Type == 0 ? request.Amount : 0;
         cashRegisterDetail.WithdrawalAmount = request.Type == 1 ? request.Amount : 0;
-        cashRegisterDetail.Description = request.Description;        
+        cashRegisterDetail.Description = request.Description;
+        cashRegisterDetail.Date = request.Date;
 
         await unitOfWorkCompany.SaveChangesAsync(cancellationToken);
 

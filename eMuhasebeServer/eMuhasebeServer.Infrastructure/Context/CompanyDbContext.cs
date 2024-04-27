@@ -31,14 +31,13 @@ internal sealed class CompanyDbContext : DbContext, IUnitOfWorkCompany
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<CashRegister>().Property(p => p.DepositAmount).HasColumnType("money");
-        modelBuilder.Entity<CashRegister>().Property(p => p.WithdrawalAmount).HasColumnType("money");
-        modelBuilder.Entity<CashRegister>().Property(p => p.BalanceAmount).HasColumnType("money");
+        modelBuilder.Entity<CashRegister>().Property(p => p.WithdrawalAmount).HasColumnType("money");        
         modelBuilder.Entity<CashRegister>()
             .Property(p => p.CurrencyType)
             .HasConversion(type => type.Value, value => CurrencyTypeEnum.FromValue(value));
         modelBuilder.Entity<CashRegister>().HasQueryFilter(filter => !filter.IsDeleted);
         modelBuilder.Entity<CashRegister>()
-            .HasMany(p=> p.CashRegisterDetails)
+            .HasMany(p=> p.Details)
             .WithOne()
             .HasForeignKey(p=> p.CashRegisterId);
 

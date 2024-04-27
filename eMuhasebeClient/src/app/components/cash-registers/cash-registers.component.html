@@ -34,8 +34,16 @@
                         <td>{{data.currencyType.name}}</td>
                         <td>{{data.depositAmount | trCurrency: changeCurrencyNameToSymbol(data.currencyType.name): true}}</td>
                         <td>{{data.withdrawalAmount | trCurrency: changeCurrencyNameToSymbol(data.currencyType.name): true}}</td>
-                        <td>{{data.balanceAmount | trCurrency: changeCurrencyNameToSymbol(data.currencyType.name): true}}</td>
                         <td>
+                            <span [ngClass]="data.depositAmount > data.withdrawalAmount? 'text-success' : 'text-danger'">
+                                {{(data.depositAmount - data.withdrawalAmount) | trCurrency: changeCurrencyNameToSymbol(data.currencyType.name): true}}
+                            </span>                            
+                        </td>
+                        <td>
+                            <button class="btn btn-dark btn-sm me-1" routerLink="/cash-registers/details/{{data.id}}">
+                                <i class="fa-regular fa-file-lines me-1"></i>
+                                Detaylar
+                            </button>
                             <button data-toggle="modal" data-target="#updateModal" (click)="get(data)" class="btn btn-outline-primary btn-sm me-1">
                                 <i class="fa-solid fa-edit"></i>
                             </button>
@@ -56,7 +64,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5">Kasa Ekleme Formu</h1>
+                <h3 class="modal-title fs-5">Kasa Ekleme Formu</h3>
                 <button type="button" #createModalCloseBtn class="btn btn-outline-danger" data-dismiss="modal">
                     <i class="fa-solid fa-x"></i>
                 </button>
@@ -95,7 +103,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5">Kasa Güncelleme Formu</h1>
+                <h3 class="modal-title fs-5">Kasa Güncelleme Formu</h3>
                 <button type="button" #updateModalCloseBtn class="btn btn-outline-danger" data-dismiss="modal">
                     <i class="fa-solid fa-x"></i>
                 </button>

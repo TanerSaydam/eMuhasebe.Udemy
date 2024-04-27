@@ -24,7 +24,7 @@ internal sealed class GetAllCashRegistersQueryHandler(
             .GetAll().OrderBy(p => p.Name)
             .ToListAsync(cancellationToken);
 
-            cacheService.Set("cashRegisters", cashRegisters);
+            cacheService.Set<List<CashRegister>>("cashRegisters", cashRegisters);
         }
         
 
