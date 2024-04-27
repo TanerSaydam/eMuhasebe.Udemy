@@ -1,4 +1,5 @@
 ﻿using eMuhasebeServer.Domain.Entities;
+using eMuhasebeServer.Domain.Enums;
 using eMuhasebeServer.Domain.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,18 @@ internal sealed class CompanyDbContext : DbContext, IUnitOfWorkCompany
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer(connectionString);
+    }
+
+    public DbSet<CashRegister> CashRegisters { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<CashRegister>().Property(p => p.DepositAmount).HasColumnType("money");
+        modelBuilder.Entity<CashRegister>().Property(p => p.WithdrawalAmount).HasColumnType("money");
+        modelBuilder.Entity<CashRegister>().Property(p => p.BalanceAmount).HasColumnType("money");
+        modelBuilder.Entity<CashRegister>()
+            .Property(p => p.CurrencyType)
+            .HasConversion(type => type.Value, value => CurrencyTypeEnum.FromValue(value));
     }
 
     private void CreateConnectionString(IHttpContextAccessor httpContextAccessor, ApplicationDbContext context)
