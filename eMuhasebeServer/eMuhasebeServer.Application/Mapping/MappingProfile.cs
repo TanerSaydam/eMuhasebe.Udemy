@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using eMuhasebeServer.Application.Features.Banks.CreateBank;
+using eMuhasebeServer.Application.Features.Banks.UpdateBank;
 using eMuhasebeServer.Application.Features.CashRegisters.CreateCashRegister;
 using eMuhasebeServer.Application.Features.CashRegisters.UpdateCashRegister;
 using eMuhasebeServer.Application.Features.Companies.CreateCompany;
@@ -24,6 +26,15 @@ public sealed class MappingProfile : Profile
             options.MapFrom(map => CurrencyTypeEnum.FromValue(map.CurrencyTypeValue));
         });
         CreateMap<UpdateCashRegisterCommand, CashRegister>().ForMember(member => member.CurrencyType, options =>
+        {
+            options.MapFrom(map => CurrencyTypeEnum.FromValue(map.CurrencyTypeValue));
+        });
+
+        CreateMap<CreateBankCommand, Bank>().ForMember(member => member.CurrencyType, options =>
+        {
+            options.MapFrom(map => CurrencyTypeEnum.FromValue(map.CurrencyTypeValue));
+        });
+        CreateMap<UpdateBankCommand, Bank>().ForMember(member => member.CurrencyType, options =>
         {
             options.MapFrom(map => CurrencyTypeEnum.FromValue(map.CurrencyTypeValue));
         });
