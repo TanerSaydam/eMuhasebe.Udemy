@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eMuhasebeServer.Infrastructure.Context;
 
@@ -11,9 +12,11 @@ using eMuhasebeServer.Infrastructure.Context;
 namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
 {
     [DbContext(typeof(CompanyDbContext))]
-    partial class CompanyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240427223723_mg7")]
+    partial class mg7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,7 +75,7 @@ namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
                         .HasColumnType("date");
 
                     b.Property<decimal>("DepositAmount")
-                        .HasColumnType("money");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -82,7 +85,7 @@ namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
                         .HasColumnType("bit");
 
                     b.Property<decimal>("WithdrawalAmount")
-                        .HasColumnType("money");
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
