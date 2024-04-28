@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eMuhasebeServer.Infrastructure.Context;
 
@@ -11,9 +12,11 @@ using eMuhasebeServer.Infrastructure.Context;
 namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
 {
     [DbContext(typeof(CompanyDbContext))]
-    partial class CompanyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240428120648_mg12")]
+    partial class mg12
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -145,6 +148,8 @@ namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CashRegisterDetailOppositeId");
+
                     b.HasIndex("CashRegisterId");
 
                     b.ToTable("CashRegisterDetails");
@@ -161,11 +166,17 @@ namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
 
             modelBuilder.Entity("eMuhasebeServer.Domain.Entities.CashRegisterDetail", b =>
                 {
+                    b.HasOne("eMuhasebeServer.Domain.Entities.CashRegisterDetail", "CashRegisterDetailOpposite")
+                        .WithMany()
+                        .HasForeignKey("CashRegisterDetailOppositeId");
+
                     b.HasOne("eMuhasebeServer.Domain.Entities.CashRegister", null)
                         .WithMany("Details")
                         .HasForeignKey("CashRegisterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("CashRegisterDetailOpposite");
                 });
 
             modelBuilder.Entity("eMuhasebeServer.Domain.Entities.Bank", b =>

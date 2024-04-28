@@ -6,7 +6,7 @@
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <select (change)="changeCompany()" class="form-control" [(ngModel)]="auth.user.companyId">
-          @for(company of auth.user.companies; track company){
+          @for(company of auth.user.companyResponse; track company){
             <option [value]="company.Id">
               {{company.Name}}
             </option>

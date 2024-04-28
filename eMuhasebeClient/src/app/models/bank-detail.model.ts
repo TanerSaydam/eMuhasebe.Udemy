@@ -8,7 +8,7 @@ export class BankDetailModel{
     amount: number = 0;
     depositAmount: number = 0;
     withdrawalAmount: number = 0;
-    bankDetailId: string = "";    
+    bankDetailOppositeId: string = "";    
     oppositeBankId: string | any = "";    
     oppositeBank: BankModel = new BankModel();
     description: string = "";

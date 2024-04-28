@@ -1,5 +1,5 @@
 import { CompanyUserModel } from "./company-user.model";
-import { CompanyModel } from "./company.model";
+import { CompanyModel, LoginResponseCompanyModel } from "./company.model";
 
 export class UserModel{
     id: string = "";
@@ -14,5 +14,6 @@ export class UserModel{
     companyIds: string[] = []; 
     companyUsers: CompanyUserModel[] = [];
     companies: CompanyModel[] = [];
+    companyResponse: LoginResponseCompanyModel[] =[];
     isAdmin: boolean = false;
 }

@@ -69,6 +69,8 @@ export class CashRegisterDetailsComponent {
       
       if(this.createModel.recordType === 0) this.createModel.oppositeCashRegisterId = null;
 
+      if(this.createModel.oppositeAmount === 0) this.createModel.oppositeAmount = this.createModel.amount;
+      
       this.http.post<string>("CashRegisterDetails/Create",this.createModel,(res)=> {
         this.swal.callToast(res);
         this.createModel = new CashRegisterDetailModel();

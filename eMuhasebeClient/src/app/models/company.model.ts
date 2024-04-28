@@ -6,7 +6,9 @@ export class CompanyModel{
     taxDepartment: string = "";
     taxNumber:string = "";
     database: DatabaseModel = new DatabaseModel();
-    
+}
+
+export class LoginResponseCompanyModel{
     Id:string = "";
     Name: string = "";
 }

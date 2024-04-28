@@ -69,6 +69,8 @@ export class BankDetailsComponent {
       
       if(this.createModel.recordType === 0) this.createModel.oppositeBankId = null;
 
+      if(this.createModel.oppositeAmount === 0) this.createModel.oppositeAmount = this.createModel.amount;
+
       this.http.post<string>("BankDetails/Create",this.createModel,(res)=> {
         this.swal.callToast(res);
         this.createModel = new BankDetailModel();

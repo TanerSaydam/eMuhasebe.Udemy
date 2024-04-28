@@ -9,6 +9,6 @@ public sealed class BankDetail : Entity
     public decimal DepositAmount { get; set; } //Giriş
     public decimal WithdrawalAmount { get; set; } //Çıkış
 
-    public Guid? BankDetailId { get; set; }
-    public BankDetail? BankDetailOpposite { get; set; }
+    public Guid? BankDetailOppositeId { get; set; }
+    //public BankDetail? BankDetailOpposite { get; set; }
 }

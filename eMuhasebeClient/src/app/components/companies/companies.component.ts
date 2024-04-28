@@ -39,7 +39,7 @@ export class CompaniesComponent {
   }
 
   create(form: NgForm){
-    if(form.valid){
+    if(form.valid){      
       this.http.post<string>("Companies/Create",this.createModel,(res)=> {
         this.swal.callToast(res);
         this.createModel = new CompanyModel();

@@ -9,7 +9,7 @@ public sealed class CashRegisterDetail : Entity
     public decimal DepositAmount { get; set; } //Giriş
     public decimal WithdrawalAmount { get; set; } //Çıkış
 
-    public Guid? CashRegisterDetailId { get; set; }
-    public CashRegisterDetail? CashRegisterDetailOpposite { get; set; }
+    public Guid? CashRegisterDetailOppositeId { get; set; }
+    //public CashRegisterDetail? CashRegisterDetailOpposite { get; set; }
 
 }
