@@ -1,7 +1,6 @@
 ﻿using eMuhasebeServer.Domain.Entities;
 using eMuhasebeServer.Domain.Enums;
 using eMuhasebeServer.Domain.Repositories;
-using eMuhasebeServer.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
