@@ -46,7 +46,7 @@
                         <td>{{data.date | date: 'dd.MM.yyyy'}}</td>
                         <td>
                             <span class="me-1">{{data.description}} </span>
-                            @if(data.cashRegisterDetailId || data.bankDetailId){
+                            @if(data.cashRegisterDetailId || data.bankDetailId || data.customerDetailId){
                                 <i class="fa-solid fa-right-left"></i>
                             }
                         </td>
@@ -107,6 +107,7 @@
                             <option [value]="0">Diğer</option>
                             <option [value]="1">Kasa</option>
                             <option [value]="2">Banka</option>
+                            <option [value]="3">Cari</option>
                         </select>
                         <div class="invalid-feedback"></div>
                     </div>    
@@ -155,6 +156,31 @@
                         </div>    
 
                          @if(createModel.oppositeCashRegister.currencyType.value != cashRegister.currencyType.value){
+                            <div class="form-group mt-2">
+                                <label>Karşı Tutar</label>
+                                <input type="text" required [(ngModel)]="createModel.oppositeAmount" class="form-control" name="oppositeAmount">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                         }                    
+                    }
+
+                    @if(createModel.recordType == 3){
+                        <div class="form-group mt-2">
+                            <label>Cari</label>
+                            <select 
+                            class="form-control" 
+                            name="oppositeCashId"
+                            [(ngModel)]="createModel.oppositeCustomerId">
+                                @for(customer of customers; track customer){
+                                    <option [value]="customer.id">
+                                        {{customer.name}}
+                                    </option>
+                                }
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>    
+
+                         @if(1 != cashRegister.currencyType.value){
                             <div class="form-group mt-2">
                                 <label>Karşı Tutar</label>
                                 <input type="text" required [(ngModel)]="createModel.oppositeAmount" class="form-control" name="oppositeAmount">
