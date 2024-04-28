@@ -1,3 +1,5 @@
+import { CustomerDetailModel } from "./customer-detail.model";
+
 export class CustomerModel{
     id: string = "";
     name: string = "";
@@ -10,6 +12,7 @@ export class CustomerModel{
     taxNumber: string = "";
     depositAmount: number = 0;
     withdrawalAmount: number = 0;
+    details: CustomerDetailModel[] = [];
 }
 
 export class CustomerTypeEnum{
