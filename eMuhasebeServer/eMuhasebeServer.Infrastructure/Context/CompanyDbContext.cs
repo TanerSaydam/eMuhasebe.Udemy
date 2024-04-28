@@ -120,6 +120,7 @@ internal sealed class CompanyDbContext : DbContext, IUnitOfWorkCompany
         modelBuilder.Entity<Customer>().Property(p => p.WithdrawalAmount).HasColumnType("money");
         modelBuilder.Entity<Customer>().Property(p => p.Type)
             .HasConversion(type => type.Value, value => CustomerTypeEnum.FromValue(value));
+        modelBuilder.Entity<Customer>().HasQueryFilter(filter => !filter.IsDeleted);
         #endregion
 
     }
