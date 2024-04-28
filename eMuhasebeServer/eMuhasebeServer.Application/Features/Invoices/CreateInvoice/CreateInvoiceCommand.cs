@@ -8,5 +8,5 @@ public sealed record CreateInvoiceCommand(
     DateOnly Date,
     string InvoiceNumber,
     Guid CustomerId,
-    List<InvoiceDetailDto> InvoiceDetails
+    List<InvoiceDetailDto> Details
     ) : IRequest<Result<string>>;

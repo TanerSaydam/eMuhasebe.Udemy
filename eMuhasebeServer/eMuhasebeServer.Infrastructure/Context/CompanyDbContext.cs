@@ -149,12 +149,13 @@ internal sealed class CompanyDbContext : DbContext, IUnitOfWorkCompany
         modelBuilder.Entity<Invoice>().Property(p => p.Type)
             .HasConversion(type => type.Value, value => InvoiceTypeEnum.FromValue(value));
         modelBuilder.Entity<Invoice>().HasQueryFilter(filter => !filter.IsDeleted);
-        modelBuilder.Entity<Invoice>().HasQueryFilter(filter => !filter.Customer!.IsDeleted);
+        modelBuilder.Entity<Invoice>().HasQueryFilter(filter => !filter.Customer!.IsDeleted);        
         #endregion
 
         #region InvoiceDetail
         modelBuilder.Entity<InvoiceDetail>().Property(p => p.Quantity).HasColumnType("decimal(7,2)");
         modelBuilder.Entity<InvoiceDetail>().Property(p => p.Price).HasColumnType("money");
+        modelBuilder.Entity<InvoiceDetail>().HasQueryFilter(filter => !filter.Product!.IsDeleted);
         #endregion
 
     }

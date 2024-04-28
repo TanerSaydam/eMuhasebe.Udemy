@@ -51,13 +51,15 @@ internal sealed class CreateInvoiceCommandHandler(
         await customerDetailRepository.AddAsync(customerDetail, cancellationToken);
         #endregion
 
-        #region Product
-        foreach (var item in request.InvoiceDetails)
+        #region Product        
+        foreach (var item in request.Details)
         {
-            Product product = await productRepository.GetByExpressionWithTrackingAsync(p => p.Id == item.ProductId, cancellationToken);
+            Product product = await productRepository.GetByExpressionAsync(p => p.Id == item.ProductId, cancellationToken);
 
             product.Deposit += request.TypeValue == 1 ? item.Quantity : 0;
             product.Withdrawal += request.TypeValue == 2 ? item.Quantity : 0;
+
+            productRepository.Update(product);
 
             ProductDetail productDetail = new()
             {
@@ -69,15 +71,13 @@ internal sealed class CreateInvoiceCommandHandler(
                 InvoiceId = invoice.Id
             };
 
-            await productRepository.AddAsync(product, cancellationToken);
             await productDetailRepository.AddAsync(productDetail, cancellationToken);
-        }
+        }        
         #endregion
 
         await unitOfWorkCompany.SaveChangesAsync(cancellationToken);
 
-        cacheService.Remove("purchaseInvoices");
-        cacheService.Remove("sellingInvoices");
+        cacheService.Remove("invoices");
         cacheService.Remove("customers");
         cacheService.Remove("products");
 

@@ -16,6 +16,7 @@ import { CustomersComponent } from './components/customers/customers.component';
 import { CustomerDetailsComponent } from './components/customer-details/customer-details.component';
 import { ProductsComponent } from './components/products/products.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { InvoicesComponent } from './components/invoices/invoices.component';
 
 export const routes: Routes = [
     {
@@ -95,6 +96,10 @@ export const routes: Routes = [
                         component: ProductDetailsComponent
                     }
                 ]
+            },
+            {
+                path: "invoices",
+                component: InvoicesComponent
             }
         ]
     }
