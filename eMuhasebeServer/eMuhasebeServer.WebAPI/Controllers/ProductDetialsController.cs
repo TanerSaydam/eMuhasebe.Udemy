@@ -1,4 +1,5 @@
 ﻿using eMuhasebeServer.Application.Features.CustomerDetails.GetAllCustomerDetails;
+using eMuhasebeServer.Application.Features.ProductDetails.GetAllProductDetails;
 using eMuhasebeServer.WebAPI.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ public sealed class ProductDetailsController : ApiController
     }
 
     [HttpPost]
-    public async Task<IActionResult> GetAll(GetAllCustomerDetailsQuery request, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAll(GetAllProductDetailsQuery request, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(request, cancellationToken);
         return StatusCode(response.StatusCode, response);

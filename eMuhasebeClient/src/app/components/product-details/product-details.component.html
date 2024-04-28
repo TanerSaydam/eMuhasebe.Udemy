@@ -1,0 +1,37 @@
+<app-blank pageName="{{product.name}} Stok Hareketleri" [routes]="['Kayıtlar','Stoklar',product.name + ' Stok Hareketleri']">
+    <app-section sectionTitle="{{product.name}} Stok Hareketleri">
+        <div class="form-group row">
+            <div class="col-9">                
+            </div>
+
+            <div class="col-3">
+                <input [(ngModel)]="search" type="search" class="form-control" placeholder="Aranacak değer girin...">
+            </div>
+        </div>
+
+        <div class="form-group mt-2">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Tarih</th>
+                        <th>Açıklama</th>
+                        <th>Giriş</th>
+                        <th>Çıkış</th>                        
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(data of product.details| productDetail: search ;track data){
+                    <tr>
+                        <td>{{$index + 1}}</td>
+                        <td>{{data.date | date: 'dd.MM.yyyy'}}</td>                        
+                        <td>{{data.description}}</td>
+                        <td>{{data.deposit}}</td>
+                        <td>{{data.withdrawal}}</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </app-section>
+</app-blank>

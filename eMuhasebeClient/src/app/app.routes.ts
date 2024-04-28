@@ -15,6 +15,7 @@ import { BankDetailsComponent } from './components/bank-details/bank-details.com
 import { CustomersComponent } from './components/customers/customers.component';
 import { CustomerDetailsComponent } from './components/customer-details/customer-details.component';
 import { ProductsComponent } from './components/products/products.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
 
 export const routes: Routes = [
     {
@@ -88,6 +89,10 @@ export const routes: Routes = [
                     {
                         path: "",
                         component: ProductsComponent
+                    },
+                    {
+                        path: "details/:id",
+                        component: ProductDetailsComponent
                     }
                 ]
             }
