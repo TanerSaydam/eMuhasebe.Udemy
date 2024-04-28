@@ -1,5 +1,6 @@
 ﻿using eMuhasebeServer.Application.Services;
 using eMuhasebeServer.Domain.Entities;
+using eMuhasebeServer.Domain.Enums;
 using eMuhasebeServer.Domain.Repositories;
 using MediatR;
 using TS.Result;
@@ -7,6 +8,8 @@ using TS.Result;
 namespace eMuhasebeServer.Application.Features.BankDetails.CreateBankDetail;
 
 internal sealed class CreateBankDetailCommandHandler(
+    ICustomerRepository customerRepository,
+    ICustomerDetailRepository customerDetailRepository,
     ICashRegisterRepository cashRegisterRepository,
     ICashRegisterDetailRepository cashRegisterDetailRepository,
     IBankRepository bankRepository,
@@ -74,12 +77,44 @@ internal sealed class CreateBankDetailCommandHandler(
             bankDetail.CashRegisterDetailId = oppositeCashRegisterDetail.Id;
 
             await cashRegisterDetailRepository.AddAsync(oppositeCashRegisterDetail, cancellationToken);
+
+            cacheService.Remove("cashRegisters");
+        }
+
+        if(request.OppositeCustomerId is not null)
+        {
+            Customer? customer =  await customerRepository.GetByExpressionWithTrackingAsync(p=> p.Id == request.OppositeCustomerId, cancellationToken);
+
+            if(customer is null)
+            {
+                return Result<string>.Failure("Cari bulunamadı");
+            }
+
+            customer.DepositAmount += request.Type == 1 ? request.Amount : 0;
+            customer.WithdrawalAmount += request.Type == 0 ? request.Amount : 0;
+
+            CustomerDetail customerDetail = new()
+            {
+                CustomerId = customer.Id,
+                BankDetailId = bankDetail.Id,
+                Date = request.Date,
+                Description = request.Description,
+                DepositAmount = request.Type == 1 ? request.Amount : 0,
+                WithdrawalAmount = request.Type == 0 ? request.Amount : 0,
+                Type = CustomerDetailTypeEnum.Bank
+            };
+
+            bankDetail.CustomerDetailId = customerDetail.Id;
+
+            await customerDetailRepository.AddAsync(customerDetail, cancellationToken);
+
+            cacheService.Remove("customers");
         }
 
         await unitOfWorkCompany.SaveChangesAsync(cancellationToken);
 
         cacheService.Remove("banks");
-        cacheService.Remove("cashRegisters");
+        
 
         return "Banka hareketi başarıyla işlendi";
     }

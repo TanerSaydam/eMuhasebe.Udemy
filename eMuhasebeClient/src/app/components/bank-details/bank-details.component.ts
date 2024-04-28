@@ -9,6 +9,7 @@ import { SharedModule } from '../../modules/shared.module';
 import { BankDetailPipe } from '../../pipes/bank-detail.pipe';
 import { DatePipe } from '@angular/common';
 import { CashRegisterModel } from '../../models/cash-register.model';
+import { CustomerModel } from '../../models/customer.model';
 
 @Component({
   selector: 'app-bank-details',
@@ -22,6 +23,7 @@ export class BankDetailsComponent {
   bank: BankModel = new BankModel();
   banks: BankModel[] = [];
   cashRegisters: CashRegisterModel[] = [];
+  customers: CustomerModel[] = [];
   bankId: string = "";
   search:string = "";
   startDate: string = "";
@@ -49,6 +51,7 @@ export class BankDetailsComponent {
       this.getAll();
       this.getAllBanks();
       this.getAllCashRegisters();
+      this.getAllCustomers();
     })
   }
 
@@ -71,6 +74,12 @@ export class BankDetailsComponent {
     });
   }
 
+  getAllCustomers(){
+    this.http.post<CustomerModel[]>("Customers/GetAll",{},(res)=> {
+      this.customers = res;
+    });
+  }
+
   create(form: NgForm){        
     if(form.valid){
       this.createModel.amount = +this.createModel.amount;
@@ -79,10 +88,16 @@ export class BankDetailsComponent {
       if(this.createModel.recordType == 0) {
         this.createModel.oppositeBankId = null;  
         this.createModel.oppositeCashRegisterId = null;      
+        this.createModel.oppositeCustomerId = null;
       }else if(this.createModel.recordType == 1){
         this.createModel.oppositeCashRegisterId = null;
+        this.createModel.oppositeCustomerId = null;
       }else if(this.createModel.recordType == 2){
         this.createModel.oppositeBankId = null; 
+        this.createModel.oppositeCustomerId = null;
+      }else if(this.createModel.recordType == 3){
+        this.createModel.oppositeBankId = null; 
+        this.createModel.oppositeCashRegisterId = null;
       }
 
       if(this.createModel.oppositeAmount === 0) this.createModel.oppositeAmount = this.createModel.amount;
