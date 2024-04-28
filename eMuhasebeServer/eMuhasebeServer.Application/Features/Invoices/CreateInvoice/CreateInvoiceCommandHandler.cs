@@ -45,11 +45,11 @@ internal sealed class CreateInvoiceCommandHandler(
             WithdrawalAmount = request.TypeValue == 1 ? invoice.Amount : 0,
             Description = invoice.InvoiceNumber + " Numaralı " + invoice.Type.Name,
             Type = request.TypeValue == 1 ? CustomerDetailTypeEnum.PurchaseInvoice : CustomerDetailTypeEnum.SellingInvoice,
+            InvoiceId = invoice.Id
         };
 
         await customerDetailRepository.AddAsync(customerDetail, cancellationToken);
         #endregion
-
 
         #region Product
         foreach (var item in request.InvoiceDetails)
@@ -65,7 +65,8 @@ internal sealed class CreateInvoiceCommandHandler(
                 Date = request.Date,
                 Description = invoice.InvoiceNumber + " Numaralı " + invoice.Type.Name,
                 Deposit = request.TypeValue == 1 ? item.Quantity : 0,
-                Withdrawal = request.TypeValue == 2 ? item.Quantity : 0
+                Withdrawal = request.TypeValue == 2 ? item.Quantity : 0,
+                InvoiceId = invoice.Id
             };
 
             await productRepository.AddAsync(product, cancellationToken);
@@ -73,9 +74,7 @@ internal sealed class CreateInvoiceCommandHandler(
         }
         #endregion
 
-
         await unitOfWorkCompany.SaveChangesAsync(cancellationToken);
-
 
         cacheService.Remove("purchaseInvoices");
         cacheService.Remove("sellingInvoices");
