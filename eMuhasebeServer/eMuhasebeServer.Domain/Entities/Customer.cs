@@ -13,4 +13,5 @@ public sealed class Customer : Entity
     public string TaxNumber { get; set; } = string.Empty;
     public decimal DepositAmount { get; set; }
     public decimal WithdrawalAmount { get; set; }
+    public List<CustomerDetail>? Details { get; set; }
 }
