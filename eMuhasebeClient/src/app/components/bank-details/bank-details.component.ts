@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SharedModule } from '../../modules/shared.module';
 import { BankDetailPipe } from '../../pipes/bank-detail.pipe';
 import { DatePipe } from '@angular/common';
+import { CashRegisterModel } from '../../models/cash-register.model';
 
 @Component({
   selector: 'app-bank-details',
@@ -20,6 +21,7 @@ import { DatePipe } from '@angular/common';
 export class BankDetailsComponent {
   bank: BankModel = new BankModel();
   banks: BankModel[] = [];
+  cashRegisters: CashRegisterModel[] = [];
   bankId: string = "";
   search:string = "";
   startDate: string = "";
@@ -46,6 +48,7 @@ export class BankDetailsComponent {
 
       this.getAll();
       this.getAllBanks();
+      this.getAllCashRegisters();
     })
   }
 
@@ -62,12 +65,25 @@ export class BankDetailsComponent {
     });
   }
 
+  getAllCashRegisters(){
+    this.http.post<CashRegisterModel[]>("CashRegisters/GetAll",{},(res)=> {
+      this.cashRegisters = res;
+    });
+  }
+
   create(form: NgForm){        
     if(form.valid){
       this.createModel.amount = +this.createModel.amount;
       this.createModel.oppositeAmount = +this.createModel.oppositeAmount;
       
-      if(this.createModel.recordType === 0) this.createModel.oppositeBankId = null;
+      if(this.createModel.recordType == 0) {
+        this.createModel.oppositeBankId = null;  
+        this.createModel.oppositeCashRegisterId = null;      
+      }else if(this.createModel.recordType == 1){
+        this.createModel.oppositeCashRegisterId = null;
+      }else if(this.createModel.recordType == 2){
+        this.createModel.oppositeBankId = null; 
+      }
 
       if(this.createModel.oppositeAmount === 0) this.createModel.oppositeAmount = this.createModel.amount;
 
@@ -120,6 +136,14 @@ export class BankDetailsComponent {
     
     if(bank){
       this.createModel.oppositeBank = bank;
+    }
+  }
+
+  setOppositeCash(){    
+    const cash = this.cashRegisters.find(p=> p.id === this.createModel.oppositeCashRegisterId);
+    
+    if(cash){
+      this.createModel.oppositeCash = cash;
     }
   }
 }

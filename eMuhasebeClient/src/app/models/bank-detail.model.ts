@@ -1,4 +1,5 @@
 import { BankModel } from "./bank.model";
+import { CashRegisterModel } from "./cash-register.model";
 
 export class BankDetailModel{
     id: string = ""
@@ -8,9 +9,12 @@ export class BankDetailModel{
     amount: number = 0;
     depositAmount: number = 0;
     withdrawalAmount: number = 0;
-    bankDetailOppositeId: string = "";    
+    bankDetailId: string = "";  
+    cashRegisterDetailId:string = "";
+    oppositeCashRegisterId: string | any = "";
     oppositeBankId: string | any = "";    
     oppositeBank: BankModel = new BankModel();
+    oppositeCash: CashRegisterModel = new CashRegisterModel();
     description: string = "";
     oppositeAmount: number = 0;
     recordType: number = 0;

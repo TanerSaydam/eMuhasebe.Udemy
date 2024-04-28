@@ -8,6 +8,7 @@ public sealed record CreateCashRegisterDetailCommand(
     int Type,
     decimal Amount,
     Guid? OppositeCashRegisterId,
+    Guid? OppositeBankId,
     decimal OppositeAmount,
     string Description
     ) : IRequest<Result<string>>;

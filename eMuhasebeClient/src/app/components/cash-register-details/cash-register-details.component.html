@@ -46,7 +46,7 @@
                         <td>{{data.date | date: 'dd.MM.yyyy'}}</td>
                         <td>
                             <span class="me-1">{{data.description}} </span>
-                            @if(data.cashRegisterDetailOppositeId){
+                            @if(data.cashRegisterDetailId || data.bankDetailId){
                                 <i class="fa-solid fa-right-left"></i>
                             }
                         </td>
@@ -106,6 +106,7 @@
                         <select class="form-control" name="recordType" [(ngModel)]="createModel.recordType">
                             <option [value]="0">Diğer</option>
                             <option [value]="1">Kasa</option>
+                            <option [value]="2">Banka</option>
                         </select>
                         <div class="invalid-feedback"></div>
                     </div>    
@@ -121,6 +122,32 @@
                                 @for(cash of cashRegisters; track cash){
                                     <option [value]="cash.id">
                                         {{cash.name}}
+                                    </option>
+                                }
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>    
+
+                         @if(createModel.oppositeCashRegister.currencyType.value != cashRegister.currencyType.value){
+                            <div class="form-group mt-2">
+                                <label>Karşı Tutar</label>
+                                <input type="text" required [(ngModel)]="createModel.oppositeAmount" class="form-control" name="oppositeAmount">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                         }                    
+                    }
+
+                    @if(createModel.recordType == 2){
+                        <div class="form-group mt-2">
+                            <label>Banka</label>
+                            <select 
+                            class="form-control" 
+                            name="oppositeBankId" 
+                            (change)="setOppositeBank()"
+                            [(ngModel)]="createModel.oppositeBankId">
+                                @for(bank of banks; track bank){
+                                    <option [value]="bank.id">
+                                        {{bank.name}}
                                     </option>
                                 }
                             </select>
