@@ -51,7 +51,7 @@
 
 <!-- Create Modal -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title fs-5">Fatura Ekleme Formu</h3>
@@ -62,7 +62,7 @@
             <form formValidate #createForm="ngForm" autocomplete="off" (ngSubmit)="create(createForm)">
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-6">                            
                             <div class="form-group">
                                 <label>Fatura Tipi</label>
                                 <select class="form-control" [(ngModel)]="createModel.typeValue" required name="typeValue">
@@ -71,12 +71,6 @@
                                 </select>
                                 <div class="invalid-feedback"></div>
                             </div>
-                            
-                            <div class="form-group mt-2">
-                                <label>Tarih</label>
-                                <input type="date" required [(ngModel)]="createModel.date" class="form-control" name="date">
-                                <div class="invalid-feedback"></div>
-                            </div>    
                             
                             <div class="form-group mt-2">
                                 <label>Müşteri</label>
@@ -88,8 +82,21 @@
                                     }
                                 </select>
                                 <div class="invalid-feedback"></div>
-                            </div>    
-        
+                            </div> 
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Tarih</label>
+                                <input type="date" required [(ngModel)]="createModel.date" class="form-control" name="date">
+                                <div class="invalid-feedback"></div>
+                            </div>  
+                            
+                            <div class="form-group mt-2">
+                                <label>Fatura Numarası</label>
+                                <input type="text" required [(ngModel)]="createModel.invoiceNumber" class="form-control" name="invoiceNumber">
+                                <div class="invalid-feedback"></div>
+                            </div> 
                         </div>
                     </div>
                     
@@ -109,14 +116,14 @@
                                 <div class="invalid-feedback"></div>
                             </div> 
                         </div>
-                        <div class="col-3">
+                        <div class="col-2">
                             <div class="form-group">
                                 <label>Adet</label>
                                 <input type="text" [(ngModel)]="createModel.quantity" class="form-control" [ngModelOptions]="{standalone:true}">
                                 <div class="invalid-feedback"></div>
                             </div> 
                         </div>
-                        <div class="col-3">
+                        <div class="col-2">
                             <div class="form-group">
                                 <label>Birim Fiyatı</label>
                                 <input type="text" [(ngModel)]="createModel.price" class="form-control" [ngModelOptions]="{standalone:true}">
@@ -129,13 +136,16 @@
                                 <input type="text" [value]="(createModel.price * createModel.quantity) | trCurrency:'₺':true" class="form-control" disabled>
                             </div> 
                         </div>
-                    </div>
 
-                    <div class="form-group mt-2">
-                        <button type="button" (click)="addDetail()" class="btn btn-danger w-100">
-                            Kalem Ekle
-                        </button>
+                        <div class="col-2">
+                            <label>İşlemler</label>
+                            <button type="button" (click)="addDetail()" class="btn btn-danger w-100">
+                                <i class="fa-solid fa-plus me-1"></i>
+                                Ekle
+                            </button>
+                        </div>
                     </div>
+                   
                     <hr>
                     <div class="form-group mt-2">
                         <table class="table table-hover">
@@ -155,8 +165,8 @@
                                         <td>{{$index + 1}}</td>
                                         <td>{{detail.product.name}}</td>
                                         <td>{{detail.quantity}}</td>
-                                        <td>{{detail.price}}</td>
-                                        <td>{{detail.quantity * detail.price}}</td>
+                                        <td>{{detail.price | trCurrency: '₺': true}}</td>
+                                        <td>{{(detail.quantity * detail.price) | trCurrency: '₺': true}}</td>
                                         <td>
                                             <button (click)="removeDetailItem($index)" class="btn btn-outline-danger btn-sm">
                                                 <i class="fa-solid fa-trash"></i>
@@ -170,7 +180,10 @@
 
                 </div>
                 <div class="modal-footer">                    
-                    <button type="submit" class="btn btn-dark w-100">Kaydet</button>
+                    <button type="submit" class="btn btn-dark w-100">
+                        <i class="fa-solid fa-save me-1"></i>
+                        Kaydet
+                    </button>
                 </div>
             </form>
         </div>
@@ -179,7 +192,7 @@
 
 <!-- Update Modal -->
 <div class="modal fade" id="updateModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title fs-5">Fatura Güncelleme Formu</h3>
@@ -199,13 +212,7 @@
                                 </select>
                                 <div class="invalid-feedback"></div>
                             </div>
-                            
-                            <div class="form-group mt-2">
-                                <label>Tarih</label>
-                                <input type="date" required [(ngModel)]="updateModel.date" class="form-control" name="updateDate">
-                                <div class="invalid-feedback"></div>
-                            </div>    
-                            
+
                             <div class="form-group mt-2">
                                 <label>Müşteri</label>
                                 <select class="form-control" [(ngModel)]="updateModel.customerId" required name="updateCustomerId">
@@ -216,8 +223,22 @@
                                     }
                                 </select>
                                 <div class="invalid-feedback"></div>
-                            </div>    
+                            </div>                            
         
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Tarih</label>
+                                <input type="date" required [(ngModel)]="updateModel.date" class="form-control" name="updateDate">
+                                <div class="invalid-feedback"></div>
+                            </div> 
+                            
+                            <div class="form-group mt-2">
+                                <label>Fatura Numarası</label>
+                                <input type="text" required [(ngModel)]="updateModel.invoiceNumber" class="form-control" name="updateInvoiceNumber">
+                                <div class="invalid-feedback"></div>
+                            </div> 
                         </div>
                     </div>
                     
@@ -237,14 +258,14 @@
                                 <div class="invalid-feedback"></div>
                             </div> 
                         </div>
-                        <div class="col-3">
+                        <div class="col-2">
                             <div class="form-group">
                                 <label>Adet</label>
                                 <input type="text" [(ngModel)]="updateModel.quantity" class="form-control" [ngModelOptions]="{standalone:true}">
                                 <div class="invalid-feedback"></div>
                             </div> 
                         </div>
-                        <div class="col-3">
+                        <div class="col-2">
                             <div class="form-group">
                                 <label>Birim Fiyatı</label>
                                 <input type="text" [(ngModel)]="updateModel.price" class="form-control" [ngModelOptions]="{standalone:true}">
@@ -257,13 +278,14 @@
                                 <input type="text" [value]="(updateModel.price * updateModel.quantity) | trCurrency:'₺':true" class="form-control" disabled>
                             </div> 
                         </div>
+                        <div class="col-2">
+                            <label>İşlemler</label>
+                            <button type="button" (click)="addDetailForUpdate()" class="btn btn-danger w-100">
+                                Kalem Ekle
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="form-group mt-2">
-                        <button type="button" (click)="addDetailForUpdate()" class="btn btn-danger w-100">
-                            Kalem Ekle
-                        </button>
-                    </div>
                     <hr>
                     <div class="form-group mt-2">
                         <table class="table table-hover">
@@ -283,8 +305,8 @@
                                         <td>{{$index + 1}}</td>
                                         <td>{{detail.product.name}}</td>
                                         <td>{{detail.quantity}}</td>
-                                        <td>{{detail.price}}</td>
-                                        <td>{{detail.quantity * detail.price}}</td>
+                                        <td>{{detail.price | trCurrency: '₺': true}}</td>
+                                        <td>{{(detail.quantity * detail.price) | trCurrency: '₺': true}}</td>
                                         <td>
                                             <button (click)="removeDetailItemForUpdate($index)" class="btn btn-outline-danger btn-sm">
                                                 <i class="fa-solid fa-trash"></i>

@@ -11,7 +11,8 @@ internal sealed class LoginCommandHandler(
     UserManager<AppUser> userManager,
     SignInManager<AppUser> signInManager,
     ICompanyUserRepository companyUserRepository,
-    IJwtProvider jwtProvider) : IRequestHandler<LoginCommand, Result<LoginCommandResponse>>
+    IJwtProvider jwtProvider,
+    ICacheService cacheService) : IRequestHandler<LoginCommand, Result<LoginCommandResponse>>
 {
     public async Task<Result<LoginCommandResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
@@ -75,6 +76,8 @@ internal sealed class LoginCommandHandler(
 
         var loginResponse = await jwtProvider.CreateToken(user, companyId, companies);
 
+
+        cacheService.RemoveAll();
 
         return loginResponse;
     }

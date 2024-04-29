@@ -26,6 +26,22 @@ internal sealed class MemoryCacheService(
             AbsoluteExpirationRelativeToNow = expiry ?? TimeSpan.FromHours(1),
         };
 
-        cache.Set<T>(key, value, cacheEntryOptions);
+        cache.Set<T>(key, value, cacheEntryOptions);        
+    }
+
+    public void RemoveAll()
+    {
+        List<string> keys = new()
+        {
+            "cashRegisters",
+            "banks",
+            "invoices",
+            "products",
+            "customers"
+        };
+        foreach (var key in keys)
+        {
+            cache.Remove(key);
+        }
     }
 }

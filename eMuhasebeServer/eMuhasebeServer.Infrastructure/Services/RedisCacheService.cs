@@ -30,6 +30,22 @@ internal sealed class RedisCacheService : ICacheService
         return _database.KeyDelete(key);
     }
 
+    public void RemoveAll()
+    {
+        List<string> keys = new()
+        {
+            "cashRegisters",
+            "banks",
+            "invoices",
+            "products",
+            "customers"
+        };
+        foreach (var key in keys)
+        {
+            _database.KeyDelete(key);
+        }
+    }
+
     public void Set<T>(string key, T value, TimeSpan? expiry = null)
     {
         var serializedValue = JsonConvert.SerializeObject(value);

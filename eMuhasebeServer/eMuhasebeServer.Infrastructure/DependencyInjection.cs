@@ -19,7 +19,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddMemoryCache();
-        services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost"));
+        //services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost"));
 
         services.AddScoped<ICacheService, MemoryCacheService>();
         //services.AddScoped<ICacheService, RedisCacheService>();
