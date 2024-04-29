@@ -23,7 +23,8 @@ export class InvoicesComponent {
   customers: CustomerModel[] = [];
   products: ProductModel[] = [];
   search:string = "";
-
+  p: number = 1;
+  
   @ViewChild("createModalCloseBtn") createModalCloseBtn: ElementRef<HTMLButtonElement> | undefined;
   @ViewChild("updateModalCloseBtn") updateModalCloseBtn: ElementRef<HTMLButtonElement> | undefined;
 

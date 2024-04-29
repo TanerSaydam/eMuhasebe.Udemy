@@ -17,6 +17,7 @@ import { RouterLink } from '@angular/router';
 export class CustomersComponent {
   customers: CustomerModel[] = [];
   search:string = "";
+  p: number = 1;
   
   customerTypes = CustomerTypes;
 

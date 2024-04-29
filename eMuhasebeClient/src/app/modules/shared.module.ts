@@ -5,6 +5,7 @@ import { SectionComponent } from '../components/section/section.component';
 import { FormsModule } from '@angular/forms';
 import { TrCurrencyPipe } from 'tr-currency';
 import { FormValidateDirective } from 'form-validate-angular';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 
@@ -17,7 +18,8 @@ import { FormValidateDirective } from 'form-validate-angular';
     SectionComponent,
     FormsModule,
     TrCurrencyPipe,
-    FormValidateDirective
+    FormValidateDirective,
+    NgxPaginationModule,
   ],
   exports: [
     CommonModule,
@@ -25,7 +27,8 @@ import { FormValidateDirective } from 'form-validate-angular';
     SectionComponent,
     FormsModule,
     TrCurrencyPipe,
-    FormValidateDirective
+    FormValidateDirective,
+    NgxPaginationModule,
   ]
 })
 export class SharedModule { }

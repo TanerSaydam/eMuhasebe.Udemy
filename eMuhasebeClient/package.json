@@ -21,6 +21,7 @@
     "@sweetalert2/ngx-sweetalert2": "^12.3.0",
     "form-validate-angular": "^17.0.1",
     "jwt-decode": "^4.0.0",
+    "ngx-pagination": "^6.0.3",
     "ngx-spinner": "^16.0.2",
     "rxjs": "~7.8.0",
     "tr-currency": "^1.0.0",

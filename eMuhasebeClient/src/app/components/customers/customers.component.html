@@ -31,7 +31,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for(data of customers | customer: search ;track data){
+                    @for(data of customers | customer: search | paginate: { itemsPerPage: 10, currentPage: p } ;track data){
                     <tr>
                         <td>{{$index + 1}}</td>
                         <td>{{data.name}}</td>
@@ -47,10 +47,9 @@
                                 {{(data.depositAmount - data.withdrawalAmount) | trCurrency: '₺': true}}
                             </span>                            
                         </td>
-                        <td>
-                            <button class="btn btn-dark btn-sm me-1" routerLink="/customers/details/{{data.id}}">
-                                <i class="fa-regular fa-file-lines me-1"></i>
-                                Detaylar
+                        <td class="d-flex">
+                            <button title="Detaylar" class="btn btn-dark btn-sm me-1" routerLink="/customers/details/{{data.id}}">
+                                <i class="fa-regular fa-file-lines me-1"></i>                               
                             </button>
                             <button data-toggle="modal" data-target="#updateModal" (click)="get(data)" class="btn btn-outline-primary btn-sm me-1">
                                 <i class="fa-solid fa-edit"></i>
@@ -63,6 +62,10 @@
                     }
                 </tbody>
             </table>
+
+            <div class="text-center">
+                <pagination-controls nextLabel="Sonraki" previousLabel="Önceki" (pageChange)="p = $event"></pagination-controls>
+            </div>
         </div>
     </app-section>
 </app-blank>
