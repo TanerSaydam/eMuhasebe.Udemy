@@ -75,8 +75,8 @@ internal sealed class CompanyDbContext : DbContext, IUnitOfWorkCompany
     public DbSet<BankDetail> BankDetails { get; set; }
     public DbSet<Customer> Customers { get; set; }
     public DbSet<CustomerDetail> CustomerDetails { get; set; }
-    public DbSet<Product> Product { get; set; }
-    public DbSet<ProductDetail> ProductDetail { get; set; }
+    public DbSet<Product> Products { get; set; }
+    public DbSet<ProductDetail> ProductDetails { get; set; }
     public DbSet<Invoice> Invoices { get; set; }
     public DbSet<InvoiceDetail> InvoiceDetails { get; set; }
 

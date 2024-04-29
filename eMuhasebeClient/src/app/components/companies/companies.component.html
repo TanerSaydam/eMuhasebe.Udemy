@@ -7,9 +7,14 @@
                     Şirket Ekle
                 </button>
 
-                <button class="btn btn-dark" (click)="migrateAll()">
+                <button class="btn btn-primary me-1" (click)="migrateAll()">
                     <i class="fa-solid fa-rotate me-1"></i>
                     Tüm Databaseleri Güncelle
+                </button>
+
+                <button class="btn btn-danger" (click)="seedData()">
+                    <i class="fa-solid fa-save me-1"></i>
+                    Bu Şirket için Fake Veriler Oluştur
                 </button>
             </div>
 

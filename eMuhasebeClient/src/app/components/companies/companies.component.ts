@@ -79,4 +79,12 @@ export class CompaniesComponent {
       });
     },"Güncelle");    
   }
+
+  seedData(){
+    this.swal.callSwal("Seed Data Oluştur?","Bu şirket için fake veri oluşturmak üzeresiniz. Devam edilsin mi?", ()=> {
+      this.http.get<string>("SeedData/Create",(res)=> {
+        this.swal.callToast(res);
+      });
+    },"Oluştur");    
+  }
 }

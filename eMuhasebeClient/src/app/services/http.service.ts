@@ -41,4 +41,28 @@ export class HttpService {
       }
     })
   }
+
+  get<T>(apiUrl:string, callBack:(res:T)=> void,errorCallBack?:()=> void ){
+    this.spinner.show();
+    this.http.get<ResultModel<T>>(`${api}/${apiUrl}`,{
+      headers: {
+        "Authorization": "Bearer " + this.auth.token
+      }
+    }).subscribe({
+      next: (res)=> {
+        if(res.data){
+          callBack(res.data);
+          this.spinner.hide();
+        }        
+      },
+      error: (err:HttpErrorResponse)=> {
+        this.spinner.hide();
+        this.error.errorHandler(err);
+        
+        if(errorCallBack){
+          errorCallBack();
+        }
+      }
+    })
+  }
 }
