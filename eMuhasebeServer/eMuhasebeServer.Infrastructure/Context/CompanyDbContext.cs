@@ -136,6 +136,7 @@ internal sealed class CompanyDbContext : DbContext, IUnitOfWorkCompany
         #region ProductDetail
         modelBuilder.Entity<ProductDetail>().Property(p => p.Deposit).HasColumnType("decimal(7,2)");
         modelBuilder.Entity<ProductDetail>().Property(p => p.Withdrawal).HasColumnType("decimal(7,2)");
+        modelBuilder.Entity<ProductDetail>().Property(p => p.Price).HasColumnType("money");
         #endregion
 
         #region Product

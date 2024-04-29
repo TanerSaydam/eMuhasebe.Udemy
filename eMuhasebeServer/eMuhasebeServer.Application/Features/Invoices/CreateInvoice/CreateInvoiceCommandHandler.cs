@@ -27,7 +27,7 @@ internal sealed class CreateInvoiceCommandHandler(
         #endregion
 
         #region Customer
-        Customer? customer = await customerRepository.GetByExpressionWithTrackingAsync(p => p.Id == request.CustomerId, cancellationToken);
+        Customer? customer = await customerRepository.GetByExpressionAsync(p => p.Id == request.CustomerId, cancellationToken);
 
         if (customer is null)
         {
@@ -36,6 +36,8 @@ internal sealed class CreateInvoiceCommandHandler(
 
         customer.DepositAmount += request.TypeValue == 2 ? invoice.Amount : 0;
         customer.WithdrawalAmount += request.TypeValue == 1 ? invoice.Amount : 0;
+
+        customerRepository.Update(customer);
 
         CustomerDetail customerDetail = new()
         {
@@ -68,7 +70,8 @@ internal sealed class CreateInvoiceCommandHandler(
                 Description = invoice.InvoiceNumber + " Numaralı " + invoice.Type.Name,
                 Deposit = request.TypeValue == 1 ? item.Quantity : 0,
                 Withdrawal = request.TypeValue == 2 ? item.Quantity : 0,
-                InvoiceId = invoice.Id
+                InvoiceId = invoice.Id,
+                Price = item.Price
             };
 
             await productDetailRepository.AddAsync(productDetail, cancellationToken);

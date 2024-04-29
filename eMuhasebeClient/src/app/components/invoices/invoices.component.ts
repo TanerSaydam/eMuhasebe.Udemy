@@ -85,16 +85,15 @@ export class InvoicesComponent {
 
   get(model: InvoiceModel){
     this.updateModel = {...model};
+    this.updateModel.typeValue = this.updateModel.type.value;
   }
 
   update(form: NgForm){
     if(form.valid){
       this.http.post<string>("Invoices/DeleteById",{id: this.updateModel.id},(res)=> {
-        this.updateModel.id = "";
         this.http.post<string>("Invoices/Create",this.updateModel,(res)=> {
-          this.swal.callToast(res);
-          this.createModel = new InvoiceModel();
-          this.createModalCloseBtn?.nativeElement.click();
+          this.swal.callToast(res, "info");          
+          this.updateModalCloseBtn?.nativeElement.click();
           this.getAll();
         });
       });
@@ -120,5 +119,26 @@ export class InvoicesComponent {
 
   removeDetailItem(index: number){
     this.createModel.details.splice(index,1);
+  }
+
+  addDetailForUpdate(){
+    const detail: InvoiceDetailModel = {
+      price: this.updateModel.price,
+      quantity: this.updateModel.quantity,
+      productId: this.updateModel.productId,
+      id: "",
+      invoiceId: "",
+      product: this.products.find(p=> p.id == this.updateModel.productId) ?? new ProductModel()
+    };
+
+    this.updateModel.details.push(detail);
+
+    this.updateModel.productId = "";
+    this.updateModel.quantity = 0;
+    this.updateModel.price = 0;
+  }
+
+  removeDetailItemForUpdate(index: number){
+    this.updateModel.details.splice(index,1);
   }
 }

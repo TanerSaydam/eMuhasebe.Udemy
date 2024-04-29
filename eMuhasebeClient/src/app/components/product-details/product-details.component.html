@@ -17,7 +17,9 @@
                         <th>Tarih</th>
                         <th>Açıklama</th>
                         <th>Giriş</th>
-                        <th>Çıkış</th>                        
+                        <th>Çıkış</th>   
+                        <th>Birim Fiyatı</th>                     
+                        <th>Toplam Tutar</th>                     
                     </tr>
                 </thead>
                 <tbody>
@@ -28,6 +30,8 @@
                         <td>{{data.description}}</td>
                         <td>{{data.deposit}}</td>
                         <td>{{data.withdrawal}}</td>
+                        <td>{{data.price | trCurrency: '₺':true}}</td>
+                        <td>{{(data.price * (data.deposit + data.withdrawal)) | trCurrency: '₺':true}}</td>
                     </tr>
                     }
                 </tbody>
