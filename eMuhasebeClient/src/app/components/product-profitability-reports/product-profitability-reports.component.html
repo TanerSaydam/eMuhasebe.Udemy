@@ -1,0 +1,32 @@
+<app-blank pageName="Stok Kârlılık Raporu" [routes]="['Raporlar','Stok Kârlılık Raporu']">
+    <app-section sectionTitle="Stok Kârlılık Raporu">
+        <table class="table table-hover">
+             <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Ürün Adı</th>
+                    <th>Alış Birim Fiyatı</th>
+                    <th>Satış Birim Fiyatı</th>
+                    <th>Kârlılık Yüzde</th>
+                    <th>Kârlılık</th>
+                </tr>
+             </thead>
+             <tbody>
+                @for(d of data; track d){
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{d.name}}</td>
+                        <td>{{d.depositPrice | trCurrency:'₺': true}}</td>
+                        <td>{{d.withdrawalPrice | trCurrency:'₺': true}}</td>
+                        <td [ngClass]="d.profitPercent > 0 ? 'text-success' : 'text-danger'">
+                            {{d.profitPercent | trCurrency:'%': true}}
+                        </td>
+                        <td [ngClass]="d.profitPercent > 0 ? 'text-success' : 'text-danger'">
+                            {{d.profit | trCurrency:'₺': true}}
+                        </td>
+                    </tr>
+                }
+             </tbody>
+        </table>
+    </app-section>
+</app-blank>

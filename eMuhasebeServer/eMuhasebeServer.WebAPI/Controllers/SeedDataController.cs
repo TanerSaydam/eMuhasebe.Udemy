@@ -26,39 +26,39 @@ public sealed class SeedDataController : ApiController
         Random random = new Random();
 
         //Customers
-        for (int i = 0; i < 1000; i++)
-        {
-            Faker faker = new();
-            int customerTypeValue = random.Next(1, 5);
-            CreateCustomerCommand customer = new(
-                faker.Company.CompanyName(),
-                customerTypeValue,
-                faker.Address.City(),
-                faker.Address.State(),
-                faker.Address.FullAddress(),
-                faker.Company.Random.String2(random.Next(10, 25)),
-                faker.Company.Random.ULong(1111111111, 99999999999).ToString());
+        //for (int i = 0; i < 1000; i++)
+        //{
+        //    Faker faker = new();
+        //    int customerTypeValue = random.Next(1, 5);
+        //    CreateCustomerCommand customer = new(
+        //        faker.Company.CompanyName(),
+        //        customerTypeValue,
+        //        faker.Address.City(),
+        //        faker.Address.State(),
+        //        faker.Address.FullAddress(),
+        //        faker.Company.Random.String2(random.Next(10, 25)),
+        //        faker.Company.Random.ULong(1111111111, 99999999999).ToString());
 
-            await _mediator.Send(customer);
-        }
+        //    await _mediator.Send(customer);
+        //}
 
         //Products
-        for (int i = 0; i < 10000; i++)
-        {
-            Faker faker = new();
-            CreateProductCommand product = new(
-                faker.Commerce.ProductName());
+        //for (int i = 0; i < 10000; i++)
+        //{
+        //    Faker faker = new();
+        //    CreateProductCommand product = new(
+        //        faker.Commerce.ProductName());
 
-            await _mediator.Send(product);
-        }
+        //    await _mediator.Send(product);
+        //}
 
         //Invoices
         var customersResult = await _mediator.Send(new GetAllCustomersQuery());
         var customers = customersResult.Data;
 
         var productsResult = await _mediator.Send(new GetAllProductsQuery());
-        var products = productsResult.Data;
-        for (int i = 0; i < 5000; i++)
+        var products = productsResult.Data!.Where(p=> p.Withdrawal > 0).ToList();
+        for (int i = 0; i < 100; i++)
         {
             Faker faker = new();
 
@@ -79,7 +79,7 @@ public sealed class SeedDataController : ApiController
             }
 
             CreateInvoiceCommand invoice = new(
-                random.Next(1, 3),
+                1,
                 new DateOnly(2024, random.Next(1, 13), random.Next(1, 29)),
                 faker.Random.ULong(3,16).ToString(),
                 customers[random.Next(1, customers.Count)].Id,
